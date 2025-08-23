@@ -1,6 +1,6 @@
 import React from "react"
-import { useNavigate } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom"
+import DrawerMenu from "../../components/DrawerMenu";
 const Home: React.FC = () => {
     console.log("Home component rendered") 
 
@@ -8,9 +8,9 @@ const Home: React.FC = () => {
 
     return (
         <div>
+            <DrawerMenu />
             <h1>Home Page</h1>
             <p> something about</p>
-            <p>login to start</p>
             <button onClick={() => navigate("/login")}>
                 Go to Login
             </button>
