@@ -1,23 +1,20 @@
-import { useState } from 'react'
-import './App.css'
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Home, Login, Landing, Register } from "./pages";
 
-function App() {
-  const [count, setCount] = useState(0)
-
+const App: React.FC = () => {
   return (
-    <>
-    
-      <h1>Quiz</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <button onClick={() => setCount((count) => count + 1)}>
-          Login
-        </button>
-      </div>
-    </>
-  )
-}
+    <BrowserRouter>
+      <Routes>
 
-export default App
+        <Route path="/" element={<Landing />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/home" element={<Home />} />
+      
+      </Routes>
+    </BrowserRouter>
+  );
+};
+
+export default App;
