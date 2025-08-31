@@ -5,6 +5,7 @@ import {
   Form,
   Input,
 } from 'antd';
+import axios from "axios";
 
 const formItemLayout = {
   labelCol: {
@@ -35,8 +36,25 @@ const Register: React.FC = () => {
 
     const [form] = Form.useForm();
 
-  const onFinish = (values: any) => {
-    console.log('Received values of form: ', values);
+  const onFinish = async (values: any) => {
+     try {
+     await axios.post("http://localhost:3000/api/register", { username: values.username, password: values.password, email: values.email});
+
+    } catch (err: any) {
+      if (axios.isAxiosError(err)) {
+      const status = err.response?.status;
+      const message = err.response?.data;
+
+      if((status === 409)){
+        
+        if (message === "Profile with this email already exists" || message ===  "Profile with this username already exists" ){
+          alert(message)
+        }
+      }
+
+    }
+      console.log("registration error")
+    }
   };
 
     return(
@@ -105,7 +123,7 @@ const Register: React.FC = () => {
       </Form.Item>
 
       <Form.Item
-        name="nickname"
+        name="username"
         label="Nickname"
         tooltip="What do you want others to call you?"
         rules={[{ required: true, message: 'Please input your nickname!', whitespace: true }]}
