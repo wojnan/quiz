@@ -10,11 +10,14 @@ import ListItemText from '@mui/material/ListItemText';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import Collapse from '@mui/material/Collapse';
+import { useNavigate } from 'react-router-dom';
 
 export default function DrawerMenu() {
   const [drawerOpen, setDrawerOpen] = React.useState(false);
   const [quizOpen, setQuizOpen] = React.useState(false);
   const [inboxOpen, setInboxOpen] = React.useState(false);
+
+  const navigate = useNavigate();
 
   const toggleDrawer = (newOpen: boolean) => () => {
     setDrawerOpen(newOpen);
@@ -22,6 +25,16 @@ export default function DrawerMenu() {
 
   const toggleQuiz = () => setQuizOpen(!quizOpen);
   const toggleInbox = () => setInboxOpen(!inboxOpen);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("userId");
+    localStorage.removeItem("username");
+    localStorage.removeItem("email");
+
+    setDrawerOpen(false);
+    navigate("/login");
+  };
 
   const DrawerList = (
     <Box sx={{ width: 250 }} role="presentation">
@@ -44,13 +57,20 @@ export default function DrawerMenu() {
       </List>
 
       <List>
-        {['Portfel', 'Historia', 'Konto', 'Pomoc','Wyloguj'].map((text) => (
+        {['Portfel', 'Historia', 'Konto', 'Pomoc'].map((text) => (
           <ListItem key={text} disablePadding>
             <ListItemButton>
               <ListItemText primary={text} />
             </ListItemButton>
           </ListItem>
         ))}
+
+        {/* Wyloguj → Logout */}
+        <ListItem disablePadding>
+          <ListItemButton onClick={handleLogout}>
+            <ListItemText primary="Wyloguj" />
+          </ListItemButton>
+        </ListItem>
       </List>
 
       <Divider />
@@ -70,13 +90,12 @@ export default function DrawerMenu() {
       </List>
 
       <Divider />
-
     </Box>
   );
 
   return (
     <div>
-    {!drawerOpen && (
+      {!drawerOpen && (
         <Button
           onClick={toggleDrawer(true)}
           sx={{
@@ -86,12 +105,14 @@ export default function DrawerMenu() {
             zIndex: 1200,
           }}
           variant="contained"
-        >Menu</Button>
+        >
+          Menu
+        </Button>
       )}
 
-  <Drawer open={drawerOpen} onClose={toggleDrawer(false)}>
-    {DrawerList}
-  </Drawer>
-</div>
+      <Drawer open={drawerOpen} onClose={toggleDrawer(false)}>
+        {DrawerList}
+      </Drawer>
+    </div>
   );
 }

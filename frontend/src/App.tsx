@@ -1,17 +1,19 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Home, Login, Landing, Register } from "./pages";
+import PrivateRoutes from "./api/privateRoutes";
 
 const App: React.FC = () => {
   return (
-    <BrowserRouter>
+     <BrowserRouter>
       <Routes>
-
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/home" element={<Home />} />
-      
+
+        <Route element={<PrivateRoutes />}>
+          <Route path="/home" element={<Home />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );

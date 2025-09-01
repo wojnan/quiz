@@ -2,9 +2,11 @@ import React from "react";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Form, Input, Flex} from "antd";
 import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 
 const Login: React.FC = () => {
 
+  const navigate = useNavigate();
   const handleLogin = async (values: any) => {
 
     try {
@@ -18,6 +20,7 @@ const Login: React.FC = () => {
       localStorage.setItem("email",user.email);
 
       alert(`Welcome ${user.username}!`);
+      navigate("/home");
     } catch (err: any) {
       alert(err.response?.data?.error || "Login failed");
     }
