@@ -26,3 +26,18 @@ export async function  getHistory (userId: number) {
     throw error;
   }
 }
+
+export async function getWallet(userId: number) {
+  try {
+    const res = await pool.query(
+      "SELECT id, balance FROM wallets WHERE user_id = $1",
+      [userId]
+    );
+
+    if (res.rows.length === 0) return null;
+    return res.rows[0];
+  } catch (error) {
+    console.log("Database error", error);
+    throw error;
+  }
+}

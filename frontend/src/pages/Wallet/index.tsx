@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import DrawerMenu from "../../components/DrawerMenu";
-import { wHistory } from "../../api/api";
+import { wHistory, getWallet } from "../../api/api";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -21,12 +21,17 @@ type WalletType = {
 
 const Wallet: React.FC = () => {
   const [walletData, setWalletData] = useState<WalletType[]>([]);
+  const [walletBalance, setWalletBalance] = useState<string | number | null>(null);
   const navigate = useNavigate();
 
   const WH = async (token: string) => {
     try {
       const dataWH = await wHistory(token);
       setWalletData(dataWH.transactionHistory || []);
+
+      const balanceData = await getWallet(token);
+      setWalletBalance(balanceData?.balance ?? 0);
+      
     } catch (error) {
       console.log(error);
     }
@@ -88,7 +93,12 @@ const Wallet: React.FC = () => {
           </TableBody>
         </Table>
       </TableContainer>
-      <p> Total amount:</p>
+      <p style={{ color: "white", marginTop: "1rem", textAlign: "right", paddingRight: 40}}> 
+        Total amount : {" "}
+        <span style={{ color: Number(walletBalance) < 0 ? "red" : "lightgreen" }}>
+          {walletBalance}
+        </span>
+      </p>
 
       <button
         onClick={() => navigate("/home")}
@@ -102,6 +112,20 @@ const Wallet: React.FC = () => {
         }}
       >
         Go to Home
+      </button>
+
+        <button
+        onClick={() => navigate("/home")}
+        style={{
+          marginTop: "1rem",
+          padding: "0.5rem 1rem",
+          backgroundColor: "#1976d2",
+          color: "white",
+          border: "none",
+          borderRadius: "4px",
+        }}
+      >
+        Add to wallet
       </button>
     </div>
   );

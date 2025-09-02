@@ -19,3 +19,16 @@ export const paymentHistory = async (req: Request, res: Response) => {
   }
 };
 
+export const walletBalance = async (req: Request, res: Response) => {
+  try {
+    const customReq = req as CustomRequest;
+    const userId = (customReq.token as any).id;
+    const wallet = await paymentService.getWallet(userId);
+
+    if (!wallet) return res.status(404).json({ message: "Wallet not found" });
+
+    res.status(200).json(wallet);
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
+  }
+};

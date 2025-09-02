@@ -61,13 +61,22 @@ export const register = async (username: string, password: string, email: string
     }
 };
 
-
-
 export const wHistory = async (token:string) => {
   try {
     const { data } = await ApiHeader.get("api/whistory", {headers: { Authorization: "Bearer " + token,},
     });
     return (data);
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+export const getWallet = async (token: string) => {
+  try {
+    const { data } = await ApiHeader.get("api/wallet", { headers: { Authorization: "Bearer " + token },
+    });
+    return data;
   } catch (error) {
     console.error(error);
     throw error;
