@@ -1,8 +1,8 @@
 import React from "react";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Form, Input, Flex} from "antd";
-import axios from "axios";
 import { useNavigate } from 'react-router-dom';
+import { login } from "../../api/api";
 
 const Login: React.FC = () => {
 
@@ -10,9 +10,9 @@ const Login: React.FC = () => {
   const handleLogin = async (values: any) => {
 
     try {
-      const response = await axios.post("http://localhost:3000/api/login", { username: values.username, password: values.password});
+      const response = await login (values.username, values.password);
 
-      const { user, token } = response.data;
+      const { user, token } = response;
 
       localStorage.setItem("token", token);
       localStorage.setItem("userId", user.id.toString());

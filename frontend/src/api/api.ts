@@ -1,6 +1,6 @@
 import axios from "axios";
 
-let baseUrl = "http://localhost:8080/";
+let baseUrl = "http://localhost:3000/";
 
 const ApiHeader = axios.create({
   baseURL: baseUrl,
@@ -32,7 +32,7 @@ export const authHeader = (): I_AuthHeader => {
 
 export const login = async (username: string, password: string) => {
   try {
-    const { data } = await ApiHeader.post("api/users/login", { username, password });
+    const { data } = await ApiHeader.post("api/login", { username, password });
     return data;
   } catch (error) {
     console.error(error);
@@ -40,6 +40,39 @@ export const login = async (username: string, password: string) => {
   }
 };
 
+export const register = async (username: string, password: string, email: string) => {
+  try {
+     await ApiHeader.post("/api/register", { username, password, email});
+
+    } catch (err: any) {
+      if (axios.isAxiosError(err)) {
+      const status = err.response?.status;
+      const message = err.response?.data;
+
+      if((status === 409)){
+        
+        if (message === "Profile with this email already exists" || message ===  "Profile with this username already exists" ){
+          alert(message)
+        }
+      }
+
+    }
+      console.log("registration error")
+    }
+};
+
+
+
+export const wHistory = async (token:string) => {
+  try {
+    const { data } = await ApiHeader.get("api/whistory", {headers: { Authorization: "Bearer " + token,},
+    });
+    console.log (data);
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
 
 /* export const getSearchWords = async (): Promise<I_Search[]> => {
   try {

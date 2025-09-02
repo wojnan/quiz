@@ -3,6 +3,7 @@ import express, { Application, Request, Response } from 'express';
 import userRoutes from './routes/authRoutes';
 import errorHandler from './middlewares/errorHandler';
 import cors from 'cors';
+import paymentRoutes from './routes/paymentRoutes'
 
 
  /*async function main() {
@@ -28,6 +29,7 @@ app.get('/', (req: Request, res: Response) => {
   res.send('Hello, World!');
 });
 app.use('/api', userRoutes);
+app.use('/api',paymentRoutes);
 app.use(errorHandler);
 
 app.listen(port, () => {

@@ -5,7 +5,7 @@ import {
   Form,
   Input,
 } from 'antd';
-import axios from "axios";
+import { register } from "../../api/api";
 
 const formItemLayout = {
   labelCol: {
@@ -37,24 +37,7 @@ const Register: React.FC = () => {
     const [form] = Form.useForm();
 
   const onFinish = async (values: any) => {
-     try {
-     await axios.post("http://localhost:3000/api/register", { username: values.username, password: values.password, email: values.email});
-
-    } catch (err: any) {
-      if (axios.isAxiosError(err)) {
-      const status = err.response?.status;
-      const message = err.response?.data;
-
-      if((status === 409)){
-        
-        if (message === "Profile with this email already exists" || message ===  "Profile with this username already exists" ){
-          alert(message)
-        }
-      }
-
-    }
-      console.log("registration error")
-    }
+    register(values.username, values.password, values.email)
   };
 
     return(

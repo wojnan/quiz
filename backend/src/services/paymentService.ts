@@ -1,0 +1,28 @@
+import { pool } from "../db";
+
+export async function  getHistory (userId: number) {
+  try {
+    console.log(userId);
+    const res = await pool.query(
+      "SELECT wt.* FROM wallet_transactions wt JOIN wallets w ON wt.wallet_id = w.id WHERE w.user_id = $1;",
+      [userId]
+
+    );
+    console.log(45435435);
+    
+
+    if (res.rows.length === 0) {
+        console.log(0);
+      return ;
+    }
+    else{
+        const transactionHistory = res.rows;
+        return {
+            transactionHistory
+        };
+    }
+  } catch (error) {
+    console.log("database error");
+    throw error;
+  }
+}
