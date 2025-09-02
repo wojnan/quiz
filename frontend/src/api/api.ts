@@ -67,7 +67,7 @@ export const wHistory = async (token:string) => {
   try {
     const { data } = await ApiHeader.get("api/whistory", {headers: { Authorization: "Bearer " + token,},
     });
-    console.log (data);
+    return (data);
   } catch (error) {
     console.error(error);
     throw error;
