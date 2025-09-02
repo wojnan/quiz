@@ -11,6 +11,13 @@ import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import Collapse from '@mui/material/Collapse';
 import { useNavigate } from 'react-router-dom';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+const darkTheme = createTheme({
+  palette: {
+    mode: 'dark',
+  },
+});
 
 export default function DrawerMenu() {
   const [drawerOpen, setDrawerOpen] = React.useState(false);
@@ -37,82 +44,127 @@ export default function DrawerMenu() {
   };
 
   const DrawerList = (
-    <Box sx={{ width: 250 }} role="presentation">
-      <List>
-        <ListItemButton onClick={toggleQuiz}>
-          <ListItemText primary="Quiz" />
-          {quizOpen ? <ExpandLess /> : <ExpandMore />}
-        </ListItemButton>
-        <Collapse in={quizOpen} timeout="auto" unmountOnExit>
-          <List component="div" disablePadding>
-            {['Hostuj', 'Dołącz'].map((text) => (
-              <ListItem key={text} disablePadding>
-                <ListItemButton sx={{ pl: 4 }}>
-                  <ListItemText primary={text} />
-                </ListItemButton>
-              </ListItem>
-            ))}
-          </List>
-        </Collapse>
-      </List>
+    <Box
+      sx={{
+        width: 250,
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+      }}
+      role="presentation"
+    >
+      <Box>
+        <List>
+          <ListItemButton onClick={toggleQuiz}>
+            <ListItemText primary="Quiz" />
+            {quizOpen ? <ExpandLess /> : <ExpandMore />}
+          </ListItemButton>
+          <Collapse in={quizOpen} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              {['Host', 'Join'].map((text) => (
+                <ListItem key={text} disablePadding>
+                  <ListItemButton sx={{ pl: 4 }}>
+                    <ListItemText primary={text} />
+                  </ListItemButton>
+                </ListItem>
+              ))}
+            </List>
+          </Collapse>
+        </List>
 
-      <List>
-        {['Portfel', 'Historia', 'Konto', 'Pomoc'].map((text) => (
+       <List>
+        {['Home', 'Wallet', 'History', 'Account', 'Help'].map((text) => (
           <ListItem key={text} disablePadding>
-            <ListItemButton>
+            <ListItemButton
+              onClick={() => {
+                switch (text) {
+                  case 'Home':
+                    navigate("/home");
+                    break;
+                  case 'Wallet':
+                    navigate("/wallet");
+                    break;
+                  case 'History':
+                    navigate("/history");
+                    break;
+                  case 'Account':
+                    navigate("/account");
+                    break;
+                  case 'Help':
+                    navigate("/help");
+                    break;
+                  default:
+                    break;
+                }
+                setDrawerOpen(false);
+              }}
+            >
               <ListItemText primary={text} />
             </ListItemButton>
           </ListItem>
         ))}
+      </List>
 
-        {/* Wyloguj → Logout */}
-        <ListItem disablePadding>
-          <ListItemButton onClick={handleLogout}>
-            <ListItemText primary="Wyloguj" />
+        <Divider />
+
+        <List>
+          <ListItemButton onClick={toggleInbox}>
+            <ListItemText primary="Inbox" />
+            {inboxOpen ? <ExpandLess /> : <ExpandMore />}
           </ListItemButton>
-        </ListItem>
-      </List>
+          <Collapse in={inboxOpen} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              <ListItemButton sx={{ pl: 4 }}>
+                <ListItemText primary="Starred" />
+              </ListItemButton>
+            </List>
+          </Collapse>
+        </List>
 
-      <Divider />
+        <Divider />
+      </Box>
 
-      <List>
-        <ListItemButton onClick={toggleInbox}>
-          <ListItemText primary="Inbox" />
-          {inboxOpen ? <ExpandLess /> : <ExpandMore />}
-        </ListItemButton>
-        <Collapse in={inboxOpen} timeout="auto" unmountOnExit>
-          <List component="div" disablePadding>
-            <ListItemButton sx={{ pl: 4 }}>
-              <ListItemText primary="Starred" />
+      <Box sx={{ mt: "auto" }}>
+        <Divider />
+        <List>
+          <ListItem disablePadding>
+            <ListItemButton onClick={handleLogout}>
+              <ListItemText primary="Log out" />
             </ListItemButton>
-          </List>
-        </Collapse>
-      </List>
-
-      <Divider />
+          </ListItem>
+        </List>
+      </Box>
     </Box>
   );
 
   return (
-    <div>
-      {!drawerOpen && (
-        <Button
-          onClick={toggleDrawer(true)}
-          sx={{
-            position: "fixed",
-            top: 16,
-            left: 16,
-            zIndex: 1200,
-          }}
-          variant="contained"
-        >
-          Menu
-        </Button>
-      )}
+    <ThemeProvider theme={darkTheme}>
+      <div>
+        {!drawerOpen && (
+          <Button
+            onClick={toggleDrawer(true)}
+            sx={{
+              position: "fixed",
+              top: 16,
+              left: 16,
+              zIndex: 1200,
+            }}
+            variant="contained"
+          >
+            Menu
+          </Button>
+        )}
 
-      <Drawer open={drawerOpen} onClose={toggleDrawer(false)}>
-        {DrawerList}
-      </Drawer>
-    </div>
+        <Drawer
+          open={drawerOpen}
+          onClose={toggleDrawer(false)}
+          PaperProps={{
+            sx: { backgroundColor: "background.default", color: "text.primary" },
+          }}
+        >
+          {DrawerList}
+        </Drawer>
+      </div>
+    </ThemeProvider>
   );
 }
