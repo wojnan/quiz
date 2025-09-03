@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Home, Login, Landing, Register, Wallet } from "./pages";
+import { Home, Login, Landing, Register, Wallet, Quiz } from "./pages";
 import PrivateRoutes from "./api/privateRoutes";
 
 const App: React.FC = () => {
@@ -14,6 +14,7 @@ const App: React.FC = () => {
         <Route element={<PrivateRoutes />}>
           <Route path="/home" element={<Home />} />
           <Route path="/wallet" element={<Wallet />} />
+          <Route path="/quiz" element={<Quiz />} />
         </Route>
       </Routes>
     </BrowserRouter>

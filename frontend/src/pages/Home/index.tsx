@@ -11,8 +11,8 @@ const Home: React.FC = () => {
             <DrawerMenu />
             <h1>Home Page</h1>
             <p> something about</p>
-            <button onClick={() => navigate("/login")}>
-                Go to Login
+            <button onClick={() => navigate("/quiz")}>
+                Go to Quiz
             </button>
 
         </div>
