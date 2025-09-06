@@ -4,6 +4,8 @@ import userRoutes from './routes/authRoutes';
 import errorHandler from './middlewares/errorHandler';
 import cors from 'cors';
 import paymentRoutes from './routes/paymentRoutes'
+import questionRoutes from "./routes/questionRoutes";
+import gameRoutes from "./routes/gameRoutes";
 
 
  /*async function main() {
@@ -30,6 +32,10 @@ app.get('/', (req: Request, res: Response) => {
 });
 app.use('/api', userRoutes);
 app.use('/api',paymentRoutes);
+//app.use('/api/questions', questionRoutes);
+console.log("Game routes mounted");
+app.use('/api',gameRoutes);
+
 app.use(errorHandler);
 
 app.listen(port, () => {

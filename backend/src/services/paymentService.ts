@@ -10,7 +10,6 @@ export async function  getHistory (userId: number) {
     );
     console.log(45435435);
     
-
     if (res.rows.length === 0) {
         console.log(0);
       return ;

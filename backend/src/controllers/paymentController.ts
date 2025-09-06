@@ -1,7 +1,6 @@
 import { Request, Response} from "express";
 import { getErrorMessage } from "../utils/errorsUtil";
 import * as paymentService from "../services/paymentService";
-import jwt from "jsonwebtoken";
 import { CustomRequest } from "../middlewares/auth";
 
 export const paymentHistory = async (req: Request, res: Response) => {

@@ -5,8 +5,6 @@ let baseUrl = "http://localhost:3000/";
 const ApiHeader = axios.create({
   baseURL: baseUrl,
 });
-
-// Token getter from cookies (dummy implementation, replace with real)
 const getTokenFromCookies = (): string | null => {
   return document.cookie
     .split("; ")
@@ -83,13 +81,22 @@ export const getWallet = async (token: string) => {
   }
 };
 
-/* export const getSearchWords = async (): Promise<I_Search[]> => {
+export const getQuestion = async (questionId: number) => {
   try {
-    const { data } = await ApiHeader.get("api/search/all", authHeader());
+    const { data } = await ApiHeader.get(`/api/questions/${questionId}`);
     return data;
   } catch (error) {
     console.error(error);
     throw error;
   }
-};*/
+};
 
+export const getAnswers = async (questionId: number) => {
+  try {
+    const { data } = await ApiHeader.get(`/api/questions/${questionId}/answers`);
+    return data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
